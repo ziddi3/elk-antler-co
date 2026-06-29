@@ -57,7 +57,7 @@ window.FAQS = [
   },
   {
     q: "Where do the antlers come from?",
-    a: "Our antlers are 100% naturally shed and hand-gathered. Elk drop their antlers every year, so no animal is ever harmed. They are Grade A quality with no additives or preservatives — just pure, single-ingredient goodness."
+    a: "Our antlers are natural drop-offs and humanely harvested. Some are gathered from antlers that elk shed naturally each year, while others are cut from the crown and humanely harvested. Either way, they are ethically and responsibly sourced, Grade A quality, with no additives or preservatives — just pure, single-ingredient goodness."
   },
   {
     q: "Split or whole — which should I choose?",
