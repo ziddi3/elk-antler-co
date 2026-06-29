@@ -223,6 +223,38 @@ img { max-width: 100%; display: block; }
 .footer-col a:hover { color: #fff; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,.15); padding-top: 20px; text-align: center; color: var(--cream-2); font-size: .85rem; }
 .footer-bottom .pay { margin-top: 8px; font-size: .8rem; opacity: .8; }
+.footer-bottom .credit { margin-top: 10px; font-size: .82rem; }
+.footer-bottom .credit a { color: var(--paypal); font-weight: 700; }
+.footer-bottom .credit a:hover { color: #fff; }
+
+/* ===== Method Alliance trust badge ===== */
+.method-trust {
+  border-top: 1px solid rgba(255,255,255,.15);
+  margin-top: 8px; padding: 28px 0 4px;
+  display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap; text-align: left;
+}
+.method-trust img {
+  width: 104px; height: 104px; object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,.45));
+  transition: transform .25s ease;
+  flex-shrink: 0;
+}
+.method-trust img:hover { transform: scale(1.06) rotate(-2deg); }
+.method-trust .mt-copy { max-width: 360px; }
+.method-trust .mt-copy h4 {
+  color: var(--cream); font-family: var(--serif); font-size: 1.08rem; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.method-trust .mt-copy .mt-verified { color: var(--paypal); font-size: .8rem; }
+.method-trust .mt-copy p { color: var(--cream-2); font-size: .86rem; line-height: 1.55; }
+.method-trust .mt-copy .mt-tags {
+  margin-top: 8px; font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(247,241,227,.7); font-weight: 700;
+}
+@media (max-width: 560px) {
+  .method-trust { flex-direction: column; text-align: center; gap: 14px; }
+  .method-trust .mt-copy h4 { justify-content: center; }
+}
 
 /* ===== Cart drawer ===== */
 .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); opacity: 0; visibility: hidden; transition: opacity .25s ease; z-index: 200; }

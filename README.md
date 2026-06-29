@@ -96,3 +96,8 @@ git push -u origin main
 ---
 
 Made with ❤️ for happy dogs and the people who love them.
+
+---
+
+🔥 **Site built & powered by [Method-Media](https://methodz.ca)** — a proud Methodz Partner.
+*Member of the Method Alliance — HVAC • Media • Hub • Partners.*
