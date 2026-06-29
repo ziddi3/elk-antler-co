@@ -12,3 +12,4 @@ Thumbs.db
 
 # Dependencies (none needed — this is a static site)
 node_modules/
+todo.md
