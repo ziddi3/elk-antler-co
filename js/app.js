@@ -271,8 +271,46 @@
   /* ---------- Contact form ---------- */
   window.handleContact = function (e) {
     e.preventDefault();
-    showToast('Thanks! We\'ll be in touch soon. 🐾');
-    e.target.reset();
+
+    var form = e.target;
+    var submit = form.querySelector('button[type="submit"]');
+    var originalText = submit ? submit.textContent : '';
+
+    var payload = {
+      name: document.getElementById('cname').value.trim(),
+      email: document.getElementById('cemail').value.trim(),
+      message: document.getElementById('cmsg').value.trim(),
+      cart: cart,
+      cartTotal: cartTotal(),
+      currency: CFG.currency
+    };
+
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = 'Sending...';
+    }
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Contact request failed');
+        showToast('Thanks! We\'ll be in touch soon. 🐾');
+        form.reset();
+      })
+      .catch(function (err) {
+        console.error(err);
+        showToast('Message failed — please email orders@methodz.ca.');
+      })
+      .finally(function () {
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = originalText;
+        }
+      });
+
     return false;
   };
 
