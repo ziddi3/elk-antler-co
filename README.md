@@ -16,7 +16,8 @@ Built as a fast, free-to-host static website (HTML + CSS + JavaScript) — no mo
 - 🚚 **Automatic shipping** — free over $45, flat rate otherwise (configurable)
 - 🦴 Product pages with descriptions, benefits, feeding guide & FAQ
 - 🌲 Rustic, professional, trustworthy design
-- 🆓 **Free to host** on GitHub Pages, Netlify, or Cloudflare Pages
+- 🆓 **Free to host** on Vercel / GitHub Pages / Netlify
+- 🔗 **Methodz CRM integration** — contact form leads are forwarded to `crm.methodz.ca` under brand `elk_treats`
 
 ---
 
@@ -39,15 +40,39 @@ Open **`js/products.js`**. Each product has a name, image, description, and size
 
 ---
 
+## 🔗 Methodz CRM (already wired)
+
+The contact form on the site posts to `/api/contact`, which forwards the lead to:
+
+```
+POST https://crm.methodz.ca/api/webhooks/lead
+```
+
+Brand: `elk_treats`  
+Source: `elk-treats-website`
+
+**Required Vercel environment variable:**
+
+| Key | Value |
+|-----|-------|
+| `METHODZ_CRM_WEBHOOK_SECRET` | Same value as `CRM_WEBHOOK_SECRET` on the Render service `methodz-crm-core` |
+
+Once that secret is set, every contact form submission appears as a lead in the Methodz CRM.
+
+---
+
 ## 🌐 Publishing your store online (free)
 
-### Option A — GitHub Pages (recommended)
-1. Push this folder to a GitHub repository (see below).
+### Option A — Vercel (current)
+Push to the connected GitHub repo; Vercel auto-deploys.
+
+### Option B — GitHub Pages
+1. Push this folder to a GitHub repository.
 2. In your repo, go to **Settings → Pages**.
 3. Under "Branch", select `main` and `/ (root)`, then **Save**.
 4. Your store goes live at `https://YOUR-USERNAME.github.io/REPO-NAME/` 🎉
 
-### Option B — Netlify / Cloudflare Pages
+### Option C — Netlify / Cloudflare Pages
 Drag-and-drop this folder onto [netlify.com/drop](https://app.netlify.com/drop) for an instant free site.
 
 ---
@@ -55,14 +80,16 @@ Drag-and-drop this folder onto [netlify.com/drop](https://app.netlify.com/drop) 
 ## 📁 Project Structure
 
 ```
-elk-treats-store/
+elk-antler-co/
 ├── index.html          # The whole store (one page)
+├── api/
+│   └── contact.js      # Forwards contact form → Methodz CRM
 ├── css/
 │   └── styles.css      # All styling
 ├── js/
 │   ├── config.js       # ⭐ EDIT THIS: PayPal ID, currency, shipping
 │   ├── products.js     # ⭐ EDIT THIS: products, prices, FAQ
-│   └── app.js          # Cart + checkout logic (no need to edit)
+│   └── app.js          # Cart + checkout + contact logic
 ├── assets/
 │   └── img/            # Logo + product photos
 └── README.md
@@ -81,23 +108,9 @@ elk-treats-store/
 
 ---
 
-## 🐾 Push to GitHub
-
-```bash
-cd elk-treats-store
-git init
-git add .
-git commit -m "Launch Elk & Antler Co. store"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/elk-antler-co.git
-git push -u origin main
-```
-
----
-
 Made with ❤️ for happy dogs and the people who love them.
 
 ---
 
-🔥 **Site built & powered by [Method-Media](https://methodz.ca)** — a proud Methodz Partner.
+🔥 **Site built & powered by [Method-Media](https://methodz.ca)** — a proud Methodz Partner.  
 *Member of the Method Alliance — HVAC • Media • Hub • Partners.*
