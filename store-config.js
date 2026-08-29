@@ -1,9 +1,10 @@
 export const STORE_CONFIG = {
   storeName: "Bircham Elk Antler",
+  legalOperator: "LEC Learn Experience Contribute Inc.",
   mode: "ecommerce",
 
   // Canonical commerce architecture: Methodz collects payment first,
-  // then settles Bircham Elk & Antler Co. downstream.
+  // then settles the underlying seller/operator downstream.
   commerceOwner: "methodz",
   paymentGateway: "methodz_stripe",
   currency: "CAD",
@@ -26,5 +27,7 @@ export const STORE_CONFIG = {
   leadScraperEnabled: false,
   pplMatchingEnabled: false,
 
-  supportContact: "orders@birchamelkantler.com"
+  customerSupportEmail: "orders@birchamelkantler.com",
+  operationalEmail: "LECINC123@gmail.com",
+  phone: "403-869-1869"
 };
