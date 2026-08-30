@@ -6,8 +6,9 @@
   'use strict';
 
   var CFG = window.STORE_CONFIG;
-  var PRODUCTS = window.PRODUCTS || [];
-  var FAQS = window.FAQS || [];
+  var PRODUCTS = [];
+  var FAQS = [];
+  var COMMERCE = {};
   var CART_KEY = 'elk_antler_cart_v1';
 
   var money = function (n) {
@@ -26,11 +27,14 @@
   function cartSubtotal() { return cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0); }
   function shipping() {
     var sub = cartSubtotal();
+    var threshold = Number(COMMERCE.freeShippingThreshold || CFG.freeShippingThreshold || 0);
+    var flatRate = Number(COMMERCE.shippingFlatRate || CFG.shippingFlatRate || 0);
     if (sub <= 0) return 0;
-    return sub >= CFG.freeShippingThreshold ? 0 : CFG.shippingFlatRate;
+    return threshold > 0 && sub >= threshold ? 0 : flatRate;
   }
   function tax() {
-    return Number((cartSubtotal() * Number(CFG.gstRate || 0)).toFixed(2));
+    var rate = Number(COMMERCE.gstRate ?? CFG.gstRate ?? 0);
+    return Number((cartSubtotal() * rate).toFixed(2));
   }
   function cartTotal() { return Number((cartSubtotal() + shipping() + tax()).toFixed(2)); }
 
@@ -38,6 +42,7 @@
     var p = PRODUCTS.find(function (x) { return x.id === productId; });
     if (!p) return;
     var v = p.variants[variantIndex];
+    if (!v) return;
     var key = productId + '::' + variantIndex;
     var existing = cart.find(function (i) { return i.key === key; });
     if (existing) existing.qty += 1;
@@ -148,16 +153,9 @@
         brand: 'elk_treats',
         storeName: CFG.storeName,
         source: 'bircham-elk-antler-store',
-        currency: 'CAD',
-        taxBehavior: CFG.taxBehavior,
-        gstRate: CFG.gstRate,
         items: cart.map(function (i) {
-          return { id: i.id, name: i.name, variant: i.variant, unitPrice: i.price, quantity: i.qty };
-        }),
-        subtotal: cartSubtotal(),
-        shipping: shipping(),
-        tax: tax(),
-        total: cartTotal()
+          return { id: i.id, variant: i.variant, quantity: i.qty };
+        })
       })
     })
       .then(function (res) {
@@ -241,8 +239,16 @@
     return false;
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
-    renderProducts(); renderFAQ(); renderCart(); updateCount();
+  function initializeStorefront() {
+    PRODUCTS = window.PRODUCTS || [];
+    FAQS = window.FAQS || [];
+    COMMERCE = window.BIRCHAM_COMMERCE || {};
+
+    renderProducts();
+    renderFAQ();
+    renderCart();
+    updateCount();
+
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('cartBtn').addEventListener('click', openCart);
     document.getElementById('cartClose').addEventListener('click', closeCart);
@@ -253,5 +259,15 @@
     navLinks.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () { navLinks.classList.remove('open'); });
     });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    Promise.resolve(window.CATALOG_READY)
+      .then(initializeStorefront)
+      .catch(function (error) {
+        console.error('[storefront] Catalog initialization failed', error);
+        var grid = document.getElementById('productGrid');
+        if (grid) grid.innerHTML = '<p>Products are temporarily unavailable. Please contact us for assistance.</p>';
+      });
   });
 })();
