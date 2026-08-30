@@ -98,7 +98,7 @@
   function renderCart() {
     var wrap = document.getElementById('cartItems');
     var totalEl = document.getElementById('cartTotal');
-    var checkout = document.getElementById('paypal-button-container');
+    var checkout = document.getElementById('methodz-checkout-container');
     if (!wrap || !totalEl) return;
 
     if (cart.length === 0) {
@@ -146,6 +146,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         brand: 'elk_treats',
+        storeName: CFG.storeName,
         source: 'bircham-elk-antler-store',
         currency: 'CAD',
         taxBehavior: CFG.taxBehavior,
