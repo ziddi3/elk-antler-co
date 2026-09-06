@@ -1,39 +1,49 @@
-async function submitMethodzLead(e, brandDefault = "method_hvac") {
+async function submitMethodzLead(e, brandDefault = "elk_antler") {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector("button[type=submit]");
   const originalText = btn ? btn.innerText : "Submit";
-  if (btn) btn.innerText = "Submitting...";
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+  }
+
+  const value = (selector) => form.querySelector(selector)?.value?.trim() || "";
+  const name = value("[name=name]") || value("#cname") || value("[name=company]");
+  const email = value("[name=email]") || value("#cemail");
+  const message = value("[name=message]") || value("#cmsg");
 
   const payload = {
-    company: form.querySelector("[name=company]")?.value || form.querySelector("[name=name]")?.value || "Web Inquiry",
-    contact_email: form.querySelector("[name=email]")?.value,
-    phone: form.querySelector("[name=phone]")?.value || "",
-    industry: form.querySelector("[name=industry]")?.value || brandDefault,
-    seats: parseInt(form.querySelector("[name=seats]")?.value || "1", 10),
-    source: window.location.hostname || "web_intake"
+    name,
+    email,
+    message,
+    brand: brandDefault,
+    pageUrl: window.location.href,
+    sessionId: window.crypto?.randomUUID?.() || undefined,
   };
 
   try {
-    const res = await fetch("https://crm.methodz.ca/api/leads", {
+    // Browser code never receives Methodz CRM credentials. The same-origin
+    // serverless relay owns the secret and forwards a normalized lead to CRM.
+    const res = await fetch("/api/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-methodz-crm-secret": "methodz-crm-2026-secret"
-      },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
     if (res.ok) {
-      alert("Inquiry received. Our dispatch desk will reach out shortly.");
+      alert("Inquiry received. Our team will reach out shortly.");
       form.reset();
     } else {
-      alert("Submission failed. Please reach out to dispatch directly.");
+      alert("Submission failed. Please reach out to us directly.");
     }
-  } catch (err) {
-    alert("Connection error reaching CRM core.");
+  } catch {
+    alert("Connection error while submitting your inquiry.");
   } finally {
-    if (btn) btn.innerText = originalText;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = originalText;
+    }
   }
 }
 window.submitMethodzLead = submitMethodzLead;
