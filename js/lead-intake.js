@@ -1,27 +1,34 @@
-async function submitMethodzLead(e, brandDefault = "method_hvac") {
+async function submitMethodzLead(e) {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector("button[type=submit]");
   const originalText = btn ? btn.innerText : "Submit";
-  if (btn) btn.innerText = "Submitting...";
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+  }
 
   const payload = {
-    company: form.querySelector("[name=company]")?.value || form.querySelector("[name=name]")?.value || "Web Inquiry",
-    contact_email: form.querySelector("[name=email]")?.value,
-    phone: form.querySelector("[name=phone]")?.value || "",
-    industry: form.querySelector("[name=industry]")?.value || brandDefault,
-    seats: parseInt(form.querySelector("[name=seats]")?.value || "1", 10),
-    source: window.location.hostname || "web_intake"
+    name:
+      form.querySelector("[name=name]")?.value ||
+      form.querySelector("#cname")?.value ||
+      "",
+    email:
+      form.querySelector("[name=email]")?.value ||
+      form.querySelector("#cemail")?.value ||
+      "",
+    message:
+      form.querySelector("[name=message]")?.value ||
+      form.querySelector("#cmsg")?.value ||
+      "",
+    pageUrl: window.location.href,
   };
 
   try {
-    const res = await fetch("https://crm.methodz.ca/api/leads", {
+    const res = await fetch("/api/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-methodz-crm-secret": "methodz-crm-2026-secret"
-      },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
     if (res.ok) {
@@ -30,10 +37,14 @@ async function submitMethodzLead(e, brandDefault = "method_hvac") {
     } else {
       alert("Submission failed. Please reach out to dispatch directly.");
     }
-  } catch (err) {
-    alert("Connection error reaching CRM core.");
+  } catch {
+    alert("Connection error reaching the contact service.");
   } finally {
-    if (btn) btn.innerText = originalText;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = originalText;
+    }
   }
 }
+
 window.submitMethodzLead = submitMethodzLead;
