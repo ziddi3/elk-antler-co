@@ -1,0 +1,13 @@
+{
+  "name": "bircham-elk-antler-store",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Elk & Antler storefront. Static site + /api/contact, served by server.js on Render (Vercel config kept intact).",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
