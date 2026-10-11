@@ -1,5 +1,5 @@
 export const STORE_CONFIG = {
-  storeName: "Bircham Elk Antler",
+  storeName: "Bircham Elk & Antler co.",
   mode: "ecommerce",
   leadScraperEnabled: false,
   pplMatchingEnabled: false,

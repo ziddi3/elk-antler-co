@@ -21,7 +21,7 @@
    ===================================================================== */
 
 window.STORE_CONFIG = {
-  storeName: "Elk & Antler Co.",
+  storeName: "Bircham Elk & Antler co.",
   currency: "USD",                 // change to "CAD" for Canadian dollars
   freeShippingThreshold: 45,       // free shipping over this amount
   shippingFlatRate: 7.95,          // shipping charged under the threshold
