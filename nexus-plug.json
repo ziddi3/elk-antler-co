@@ -1,0 +1,28 @@
+{
+  "protocol": "methodz.nexus-plug.v1",
+  "socket": {
+    "protocol": "methodz.nexus-socket.v1",
+    "socketId": "socket:elk-antler",
+    "dockId": "module-elk-antler",
+    "moduleId": "module-elk-antler",
+    "repository": "ziddi3/elk-antler-co",
+    "role": "storefront",
+    "parentDockId": "nexus-hub",
+    "public": true,
+    "entrypoint": null,
+    "provides": ["traversal", "projection"],
+    "requests": ["surface-manifestation"]
+  },
+  "projection": {
+    "protocol": "methodz.nexus-projection.v1",
+    "socketId": "socket:elk-antler",
+    "moduleId": "module-elk-antler",
+    "state": "reserved",
+    "doorwayOpen": false,
+    "emissiveScale": 0.15,
+    "ambientScale": 0.2,
+    "attention": "notice",
+    "observedAt": "2026-10-23T06:45:00.000Z",
+    "sourceRevision": null
+  }
+}
